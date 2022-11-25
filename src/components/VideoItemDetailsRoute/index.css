@@ -1,0 +1,13 @@
+.logo-div {
+  margin: 10px;
+}
+
+.trend-icon {
+  color: red;
+}
+
+.light-icon,
+.dark-icon {
+  padding: 5px;
+  border-radius: 50%;
+}
