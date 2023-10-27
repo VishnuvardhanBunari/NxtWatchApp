@@ -1,77 +1,70 @@
-import {BiListPlus} from 'react-icons/bi'
-import ThemeContext from '../../context/ThemeContext'
+import {CgPlayListAdd} from 'react-icons/cg'
+
 import Header from '../Header'
-import SideBar from '../SideBar'
+import NavigationBar from '../NavigationBar'
+import ThemeAndVideoContext from '../../context/ThemeAndVideoContext'
+import TrendingVideoCard from '../TrendingVideoCard'
 
 import {
-  SavedVideosContainer,
-  SavedVideosContentContainer,
-  VideosContainer,
-  NoSavedVideosContainer,
-  NoSavedVideos,
-  NoSavesVideosText,
-  NoSavedVideosSuggestion,
-  LinkItem,
-  IconContainer,
-  Heading,
+  SavedContainer,
+  SavedTitleIconContainer,
+  SavedVideoTitle,
+  SavedVideoList,
+  SavedText,
+  NoSavedVideosView,
+  NoSavedVideosImage,
+  NoSavedVideosHeading,
+  NoSavedVideosNote,
 } from './styledComponents'
 
-import VideoItem from '../VideoItem'
-
 const SavedVideos = () => (
-  <ThemeContext.Consumer>
+  <ThemeAndVideoContext.Consumer>
     {value => {
-      const {isDarkTheme, savedVideosList} = value
-      const renderSavedVideos = () => (
-        <>
-          <LinkItem darkMode={isDarkTheme}>
-            <IconContainer darkMode={isDarkTheme}>
-              <BiListPlus className="header-icon" />
-            </IconContainer>
-            <Heading darkMode={isDarkTheme}>Saved Videos</Heading>
-          </LinkItem>
-          <VideosContainer>
-            {savedVideosList.map(eachMovieDetails => (
-              <VideoItem
-                key={eachMovieDetails.videoDetails.id}
-                eachMovieDetails={eachMovieDetails.videoDetails}
-              />
-            ))}
-          </VideosContainer>
-        </>
-      )
+      const {isDarkTheme, savedVideos} = value
+      const bgColor = isDarkTheme ? '#0f0f0f' : '#f9f9f9'
+      const textColor = isDarkTheme ? '#f9f9f9' : '#231f20'
+      const headingColor = isDarkTheme ? '#f1f5f9' : '#1e293b'
+      const noteColor = isDarkTheme ? '#e2e8f0' : '#475569'
 
       return (
         <>
           <Header />
-          <SavedVideosContainer
-            darkMode={isDarkTheme}
-            data-testid="savedVideos"
-          >
-            <SideBar />
-            <SavedVideosContentContainer>
-              {savedVideosList.length === 0 ? (
-                <NoSavedVideosContainer>
-                  <NoSavedVideos
-                    alt="no saved videos"
-                    src="https://assets.ccbp.in/frontend/react-js/nxt-watch-no-saved-videos-img.png"
+          <NavigationBar />
+          <SavedContainer data-testid="savedVideos" bgColor={bgColor}>
+            <SavedVideoTitle>
+              <SavedTitleIconContainer>
+                <CgPlayListAdd size={35} color="#ff0000" />
+              </SavedTitleIconContainer>
+              <SavedText color={textColor}>Saved Videos</SavedText>
+            </SavedVideoTitle>
+            {savedVideos.length > 0 ? (
+              <SavedVideoList>
+                {savedVideos.map(eachVideo => (
+                  <TrendingVideoCard
+                    key={eachVideo.id}
+                    videoDetails={eachVideo}
                   />
-                  <NoSavesVideosText darkMode={isDarkTheme}>
-                    No saved videos found
-                  </NoSavesVideosText>
-                  <NoSavedVideosSuggestion darkMode={isDarkTheme}>
-                    Save your videos by clicking a button
-                  </NoSavedVideosSuggestion>
-                </NoSavedVideosContainer>
-              ) : (
-                renderSavedVideos()
-              )}
-            </SavedVideosContentContainer>
-          </SavedVideosContainer>
+                ))}
+              </SavedVideoList>
+            ) : (
+              <NoSavedVideosView>
+                <NoSavedVideosImage
+                  src="https://assets.ccbp.in/frontend/react-js/nxt-watch-no-saved-videos-img.png"
+                  alt="no saved videos"
+                />
+                <NoSavedVideosHeading headingColor={headingColor}>
+                  No saved videos found
+                </NoSavedVideosHeading>
+                <NoSavedVideosNote noteColor={noteColor}>
+                  You can save your videos while watching them
+                </NoSavedVideosNote>
+              </NoSavedVideosView>
+            )}
+          </SavedContainer>
         </>
       )
     }}
-  </ThemeContext.Consumer>
+  </ThemeAndVideoContext.Consumer>
 )
 
 export default SavedVideos
