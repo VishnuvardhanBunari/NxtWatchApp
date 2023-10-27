@@ -1,40 +1,45 @@
+import Header from '../Header'
+import NavigationBar from '../NavigationBar'
+import ThemeAndVideoContext from '../../context/ThemeAndVideoContext'
 import {
   NotFoundContainer,
-  NotFoundContentContainer,
-  NotFoundImage,
-  NotFoundText,
-  SorryMsg,
+  NotFoundVideosView,
+  NotFoundVideosImage,
+  NotFoundVideosHeading,
+  NotFoundVideosNote,
 } from './styledComponents'
-import ThemeContext from '../../context/ThemeContext'
-
-import Header from '../Header'
-import SideBar from '../SideBar'
 
 const NotFound = () => (
-  <ThemeContext.Consumer>
+  <ThemeAndVideoContext.Consumer>
     {value => {
       const {isDarkTheme} = value
-      const notFoundImage = isDarkTheme
+      const bgColor = isDarkTheme ? '#181818' : '#f9f9f9'
+      const headingColor = isDarkTheme ? '#f1f5f9' : '#1e293b'
+      const noteColor = isDarkTheme ? '#e2e8f0' : '#475569'
+
+      const notFoundImageUrl = isDarkTheme
         ? 'https://assets.ccbp.in/frontend/react-js/nxt-watch-not-found-dark-theme-img.png'
         : 'https://assets.ccbp.in/frontend/react-js/nxt-watch-not-found-light-theme-img.png'
 
       return (
         <>
           <Header />
-          <NotFoundContainer darkMode={isDarkTheme} data-testid="not-found">
-            <SideBar />
-            <NotFoundContentContainer>
-              <NotFoundImage src={notFoundImage} alt="not found" />
-              <NotFoundText>Page Not Found</NotFoundText>
-              <SorryMsg>
-                we are sorry, the page you requested could not be found.
-              </SorryMsg>
-            </NotFoundContentContainer>
+          <NavigationBar />
+          <NotFoundContainer bgColor={bgColor}>
+            <NotFoundVideosView>
+              <NotFoundVideosImage src={notFoundImageUrl} alt="not found" />
+              <NotFoundVideosHeading headingColor={headingColor}>
+                Page Not Found
+              </NotFoundVideosHeading>
+              <NotFoundVideosNote noteColor={noteColor}>
+                We are sorry, the page you requested could not be found.
+              </NotFoundVideosNote>
+            </NotFoundVideosView>
           </NotFoundContainer>
         </>
       )
     }}
-  </ThemeContext.Consumer>
+  </ThemeAndVideoContext.Consumer>
 )
 
 export default NotFound
